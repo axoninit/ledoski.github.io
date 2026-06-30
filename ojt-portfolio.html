@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1C2541">
+<meta name="description" content="An on-the-job training field log and portfolio — the journey, the work, and what came out of it.">
+<title>OJT Field Log — Your Name</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Kalam:wght@400;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ===================== Tokens ===================== */
+:root{
+  --ink: #1C2541;        --ink-rgb: 28,37,65;
+  --manila: #E7D9AE;
+  --paper: #FBF6E8;       --paper-rgb: 251,246,232;
+  --stamp-red: #B23A22;
+  --tape-yellow: #F2B705;
+  --field-teal: #2E6F64;
+
+  --font-display: 'Anton', sans-serif;
+  --font-body: 'Space Mono', monospace;
+  --font-hand: 'Kalam', cursive;
+
+  --fs-name: clamp(2.75rem, 9vw, 6rem);
+  --fs-h2: clamp(1.8rem, 4.5vw, 3rem);
+  --fs-h3: clamp(1.1rem, 2.3vw, 1.35rem);
+
+  --nav-h: 58px;
+}
+
+/* ===================== Reset & base ===================== */
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-padding-top: var(--nav-h); }
+body,h1,h2,h3,p,dl,dd,figure{ margin:0; }
+ul{ list-style:none; margin:0; padding:0; }
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+strong{ font-weight:700; }
+body{
+  font-family: var(--font-body);
+  background: var(--manila);
+  color: var(--ink);
+  line-height:1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.mono{ font-family: var(--font-body); }
+.eyebrow{
+  display:block;
+  font-size:0.72rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color: var(--fg-soft);
+  margin-bottom: 0.85rem;
+}
+.section-title{
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:0.01em;
+  color: var(--fg);
+  margin-bottom: clamp(2rem,5vw,3.5rem);
+}
+*:focus-visible{
+  outline: 3px solid var(--tape-yellow);
+  outline-offset: 3px;
+  border-radius:2px;
+}
+
+/* ===================== Layout helpers ===================== */
+.wrap{
+  max-width:1100px;
+  margin-inline:auto;
+  padding-inline: clamp(1.25rem, 5vw, 3rem);
+}
+.section{
+  position:relative;
+  width:100%;
+  padding-block: clamp(3rem, 8vw, 5.5rem);
+  color: var(--fg);
+}
+.section--manila{
+  --fg: var(--ink);
+  --fg-soft: rgba(var(--ink-rgb), 0.7);
+  background-color: var(--manila);
+  background-image: repeating-linear-gradient(
+    to bottom, transparent, transparent 38px,
+    rgba(var(--ink-rgb),0.07) 39px, rgba(var(--ink-rgb),0.07) 40px
+  );
+}
+.section--ink{
+  --fg: var(--paper);
+  --fg-soft: rgba(var(--paper-rgb), 0.68);
+  background-color: var(--ink);
+  background-image: radial-gradient(ellipse at top, rgba(255,255,255,0.05), transparent 60%);
+}
+
+/* ===================== Nav ===================== */
+.tabs-nav{
+  position:sticky; top:0; z-index:50;
+  display:flex; align-items:flex-end; gap:0.25rem;
+  background: var(--manila);
+  border-bottom: 3px solid var(--ink);
+  padding: 0.75rem clamp(1rem,4vw,2rem) 0;
+  overflow-x:auto;
+  white-space:nowrap;
+  height: var(--nav-h);
+}
+.tabs-nav__brand{
+  font-family: var(--font-display);
+  font-size:0.95rem;
+  letter-spacing:0.03em;
+  margin-right:auto;
+  padding-bottom:0.75rem;
+}
+.tabs-nav__tabs{ display:flex; gap:0.3rem; flex-shrink:0; }
+.tab{
+  display:inline-block;
+  background: var(--paper);
+  border: 1px solid rgba(var(--ink-rgb),0.18);
+  border-bottom:none;
+  border-radius:6px 6px 0 0;
+  padding: 0.5rem 0.9rem;
+  font-size:0.7rem;
+  letter-spacing:0.09em;
+  color: var(--ink);
+  transform: translateY(5px);
+  transition: transform .2s ease, background .2s ease;
+}
+.tab:hover, .tab:focus-visible{ transform: translateY(0); background: var(--tape-yellow); }
+
+/* ===================== Stamp component ===================== */
+.stamp{
+  width: clamp(125px, 16vw, 165px);
+  aspect-ratio:1;
+  border-radius:50%;
+  border: 3px solid currentColor;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:0.15rem;
+  font-family: var(--font-body);
+  font-weight:700;
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  letter-spacing:0.06em;
+  text-align:center;
+  line-height:1.1;
+}
+.stamp__star{ font-size:0.65em; opacity:0.85; }
+.stamp--hero{
+  color: var(--tape-yellow);
+  box-shadow: 0 0 0 5px var(--ink), 0 0 0 8px var(--tape-yellow);
+  transform: rotate(-9deg);
+}
+.stamp--closing{
+  color: var(--stamp-red);
+  box-shadow: 0 0 0 5px var(--manila), 0 0 0 8px var(--stamp-red);
+  transform: rotate(-6deg);
+  margin-inline:auto;
+}
+
+/* ===================== Hero ===================== */
+.hero{ padding-block: clamp(4rem, 11vw, 7rem); overflow:hidden; }
+.hero .wrap{
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:center;
+  gap: clamp(2rem, 6vw, 4rem);
+}
+.hero__tag{
+  display:inline-block;
+  background: rgba(var(--paper-rgb),0.08);
+  border:1px solid rgba(var(--paper-rgb),0.35);
+  padding:0.35rem 0.85rem;
+  border-radius:3px;
+  font-size:0.68rem;
+  letter-spacing:0.1em;
+  margin-bottom:1.5rem;
+}
+.hero__name{
+  font-family: var(--font-display);
+  font-size: var(--fs-name);
+  line-height:0.92;
+  text-transform:uppercase;
+  margin-bottom:0.85rem;
+  word-break: break-word;
+}
+.hero__sub{
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  color: var(--fg-soft);
+  margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+}
+.hero__meta{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  column-gap:1.1rem; row-gap:0.6rem;
+}
+.hero__meta > div{ display:contents; }
+.hero__meta dt{ font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--fg-soft); align-self:center; }
+.hero__meta dd{ font-weight:700; font-size:0.92rem; }
+.hero__stampcell{ display:flex; justify-content:center; }
+.hero__scroll{
+  position:absolute; left:50%; bottom:1.5rem; transform:translateX(-50%);
+  font-size:0.72rem; color:var(--fg-soft); letter-spacing:0.05em;
+  text-decoration:underline; text-underline-offset:3px;
+}
+
+/* ===================== About / ID card ===================== */
+.id-card{
+  display:flex; gap: clamp(1.5rem,4vw,2.5rem);
+  align-items:flex-start;
+  background: var(--paper);
+  border:1px solid rgba(var(--ink-rgb),0.12);
+  border-radius:4px;
+  padding: clamp(1.5rem,4vw,2.5rem);
+  box-shadow: 0 10px 26px rgba(var(--ink-rgb),0.12);
+}
+.id-card__photo{ flex-shrink:0; width: clamp(120px,18vw,160px); }
+.id-card__body{ flex:1; min-width:0; }
+.id-card__text{ max-width:60ch; margin-bottom:1.5rem; font-size:0.95rem; }
+.id-card__facts{ display:grid; grid-template-columns:auto 1fr; column-gap:1rem; row-gap:0.5rem; max-width:420px; }
+.id-card__facts > div{ display:contents; }
+.id-card__facts dt{ font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(var(--ink-rgb),0.6); }
+.id-card__facts dd{ font-weight:700; font-size:0.85rem; }
+
+/* ===================== Photo placeholder ===================== */
+.photo{ width:100%; max-width:220px; }
+.photo__frame{
+  background: var(--paper);
+  background-image: repeating-linear-gradient(45deg, rgba(var(--ink-rgb),0.05) 0 6px, transparent 6px 14px);
+  border:1px solid rgba(var(--ink-rgb),0.18);
+  aspect-ratio: 4/3;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.4rem;
+  padding:0.75rem;
+  text-align:center;
+}
+.photo__icon{ font-size:1.4rem; }
+.photo__hint{ font-size:0.66rem; color:rgba(var(--ink-rgb),0.65); line-height:1.4; }
+.photo__caption{
+  font-family: var(--font-hand);
+  font-size:1rem;
+  text-align:center;
+  margin-top:0.6rem;
+  color: var(--ink);
+}
+.photo{
+  background: var(--paper);
+  padding: 0.6rem 0.6rem 0.9rem;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+  position:relative;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.photo--rotate-a{ transform: rotate(-4deg); }
+.photo--rotate-b{ transform: rotate(3deg); }
+.photo--rotate-c{ transform: rotate(-2deg); }
+.photo:hover, .photo:focus-within{ transform: rotate(0deg) translateY(-5px); box-shadow: 0 14px 26px rgba(0,0,0,0.25); }
+.tape{
+  position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+  width:64px; height:22px;
+  background: linear-gradient(180deg, rgba(242,183,5,0.85), rgba(242,183,5,0.6));
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  opacity:0.9;
+}
+
+/* ===================== Journey / Timeline ===================== */
+.timeline{ position:relative; margin-top:1rem; }
+.timeline::before{
+  content:""; position:absolute; left:50%; top:0; bottom:0; width:3px;
+  background: repeating-linear-gradient(to bottom, var(--ink) 0 8px, transparent 8px 14px);
+  transform:translateX(-50%);
+}
+.entry{ position:relative; display:flex; padding: clamp(1.5rem,4vw,2.5rem) 0; }
+.entry__node{
+  position:absolute; top: clamp(1.5rem,4vw,2.5rem); left:50%; transform:translate(-50%,0.4rem);
+  width:16px; height:16px; border-radius:50%;
+  background: var(--field-teal);
+  border:3px solid var(--manila);
+  z-index:2;
+}
+.entry__content{ width:46%; }
+.entry:nth-child(odd){ justify-content:flex-start; }
+.entry:nth-child(odd) .entry__content{ text-align:right; margin-right:4%; }
+.entry:nth-child(even){ justify-content:flex-end; }
+.entry:nth-child(even) .entry__content{ margin-left:4%; }
+.entry:nth-child(even) .photo{ margin-left:0; }
+.entry:nth-child(odd) .photo{ margin-left:auto; }
+.entry__date{ font-size:0.7rem; letter-spacing:0.1em; color: var(--field-teal); font-weight:700; margin-bottom:0.4rem; }
+.entry__title{ font-family: var(--font-display); font-size: var(--fs-h3); text-transform:uppercase; margin-bottom:0.6rem; }
+.entry__note{ font-size:0.9rem; margin-bottom:1.1rem; }
+
+/* ===================== Exhibits / Cards ===================== */
+.board__grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem,3vw,2rem);
+  margin-top: clamp(1.5rem,4vw,2rem);
+  padding-top:1rem;
+}
+.card{
+  position:relative;
+  background: var(--paper);
+  color: var(--ink);
+  border:1px solid rgba(var(--ink-rgb),0.12);
+  border-radius:4px;
+  padding: clamp(1.25rem,3vw,1.75rem);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.3);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.card--a{ transform: rotate(-2deg); }
+.card--b{ transform: rotate(1.5deg); }
+.card--c{ transform: rotate(-1deg); }
+.card:hover, .card:focus-within{ transform: rotate(0) translateY(-6px); box-shadow: 0 18px 32px rgba(0,0,0,0.4); }
+.card__pin{
+  position:absolute; top:-9px; left:50%; transform:translateX(-50%);
+  width:16px; height:16px; border-radius:50%;
+  background: var(--stamp-red);
+  box-shadow: inset -2px -2px 3px rgba(0,0,0,0.35), inset 2px 2px 3px rgba(255,255,255,0.45), 0 2px 4px rgba(0,0,0,0.45);
+}
+.card__tab{
+  display:inline-block; font-size:0.66rem; letter-spacing:0.1em;
+  color: var(--field-teal); font-weight:700; margin-bottom:0.85rem;
+}
+.card__thumb{
+  background: rgba(var(--ink-rgb),0.04);
+  background-image: repeating-linear-gradient(45deg, rgba(var(--ink-rgb),0.05) 0 6px, transparent 6px 14px);
+  border:1px dashed rgba(var(--ink-rgb),0.3);
+  height:110px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.7rem; color: rgba(var(--ink-rgb),0.6); text-align:center; padding:0.5rem;
+  margin-bottom:1rem;
+}
+.card__title{ font-family: var(--font-display); font-size:1.2rem; text-transform:uppercase; margin-bottom:0.6rem; }
+.card__desc{ font-size:0.85rem; margin-bottom:1.1rem; }
+.card__tags{ display:flex; flex-wrap:wrap; gap:0.4rem; }
+.card__tags li{
+  background: var(--field-teal); color: var(--paper);
+  font-size:0.65rem; letter-spacing:0.05em;
+  padding:0.3rem 0.6rem; border-radius:2px;
+}
+
+/* ===================== Closing ===================== */
+.closing .wrap{ text-align:center; }
+.closing .eyebrow{ text-align:center; }
+.closing__text{ max-width:60ch; margin:1.75rem auto 2.5rem; font-size:0.95rem; }
+.signoff{
+  display:flex; flex-wrap:wrap; justify-content:center; gap: clamp(2rem,6vw,5rem);
+  margin-bottom:2.5rem;
+}
+.signoff__col{ width:220px; }
+.sig-line{ border-bottom:2px solid var(--ink); height:2.5rem; }
+.signoff__col p{ font-size:0.68rem; letter-spacing:0.05em; margin-top:0.6rem; }
+.closing__contact{ font-size:0.85rem; }
+.closing__contact a{ text-decoration:underline; text-underline-offset:2px; }
+
+/* ===================== Footer ===================== */
+.site-footer{
+  background: var(--ink); color: rgba(var(--paper-rgb),0.6);
+  text-align:center; padding: 1.5rem clamp(1rem,4vw,2rem);
+  font-size:0.7rem; letter-spacing:0.03em;
+}
+
+/* ===================== Reveal & motion (safe defaults first) ===================== */
+.reveal{ opacity:1; transform:none; }
+.hero__tag,.hero__name,.hero__sub,.hero__meta,.stamp--hero,.hero__scroll{ opacity:1; transform-origin:center; }
+.stamp--hero{ transform: rotate(-9deg); }
+.stamp--closing{ transform: rotate(-6deg); }
+
+@media (prefers-reduced-motion: no-preference){
+  html{ scroll-behavior:smooth; }
+  .reveal{ opacity:0; transform:translateY(26px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.is-visible{ opacity:1; transform:none; }
+
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(18px);} to{ opacity:1; transform:translateY(0);} }
+  @keyframes stampSlam{
+    0%{ opacity:0; transform: scale(2.4) rotate(var(--rot,-9deg)); }
+    55%{ opacity:1; transform: scale(0.92) rotate(var(--rot,-9deg)); }
+    100%{ opacity:1; transform: scale(1) rotate(var(--rot,-9deg)); }
+  }
+  @keyframes bounce{ 0%,100%{ transform:translate(-50%,0);} 50%{ transform:translate(-50%,6px);} }
+
+  .hero__tag{ animation: fadeUp .6s ease both; }
+  .hero__name{ animation: fadeUp .6s .1s ease both; }
+  .hero__sub{ animation: fadeUp .6s .2s ease both; }
+  .hero__meta{ animation: fadeUp .6s .3s ease both; }
+  .stamp--hero{ --rot:-9deg; animation: stampSlam .7s .55s cubic-bezier(.34,1.56,.64,1) both; }
+  .stamp--closing{ --rot:-6deg; }
+  .stamp--closing.reveal.is-visible{ animation: stampSlam .7s cubic-bezier(.34,1.56,.64,1) both; }
+  .hero__scroll{ animation: bounce 2.2s ease-in-out infinite; }
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width:760px){
+  .hero .wrap{ grid-template-columns:1fr; text-align:left; }
+  .hero__stampcell{ justify-content:flex-start; margin-top:1rem; }
+
+  .id-card{ flex-direction:column; }
+  .id-card__photo{ width:140px; }
+
+  .timeline::before{ left:18px; }
+  .entry{ padding-left:42px; }
+  .entry__node{ left:18px; }
+  .entry__content{ width:100%; text-align:left !important; margin:0 !important; }
+  .entry .photo{ margin-left:0 !important; margin-right:auto; }
+
+  .signoff{ gap:1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!--
+  EDIT GUIDE
+  Search for square-bracketed text like [Your Name] or [Company Name] — those
+  are the spots meant to be personalized. Photo placeholders (the dashed boxes)
+  can be swapped for real <img src="..." alt="..."> tags once you have photos.
+-->
+
+<header class="tabs-nav" aria-label="Section navigation">
+  <a class="tabs-nav__brand" href="#cover">OJT FIELD LOG</a>
+  <nav class="tabs-nav__tabs">
+    <a href="#cover" class="tab">LOG</a>
+    <a href="#about" class="tab">ABOUT</a>
+    <a href="#journey" class="tab">JOURNEY</a>
+    <a href="#exhibits" class="tab">EXHIBITS</a>
+    <a href="#closing" class="tab">SIGN-OFF</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ============ COVER / HERO ============ -->
+  <section id="cover" class="section section--ink hero">
+    <div class="wrap">
+      <div>
+        <span class="hero__tag mono">FILE NO. OJT-2026 · STATUS: CLOSED</span>
+        <h1 class="hero__name">[Your Name]</h1>
+        <p class="hero__sub mono">OJT Field Log — [Your Course / Program], [Your School]</p>
+
+        <dl class="hero__meta mono">
+          <div><dt>Assigned to</dt><dd>[Company Name]</dd></div>
+          <div><dt>Role</dt><dd>[Position / Department]</dd></div>
+          <div><dt>Duration</dt><dd>[Start Date] – [End Date]</dd></div>
+          <div><dt>Hours logged</dt><dd>[Number] hrs</dd></div>
+        </dl>
+      </div>
+
+      <div class="hero__stampcell">
+        <div class="stamp stamp--hero" aria-hidden="true">
+          <span>TRAINING</span><span class="stamp__star">★</span><span>COMPLETE</span>
+        </div>
+      </div>
+    </div>
+    <a href="#about" class="hero__scroll mono">↓ open the file</a>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="section section--manila">
+    <div class="wrap">
+      <p class="eyebrow mono">PG. 02 — ABOUT THE TRAINEE</p>
+
+      <div class="id-card">
+        <div class="id-card__photo photo photo--rotate-a">
+          <div class="photo__frame">
+            <span class="photo__icon">📷</span>
+            <span class="photo__hint mono">Add an ID-style photo</span>
+          </div>
+        </div>
+
+        <div class="id-card__body">
+          <p class="id-card__text">
+            I'm <strong>[Your Name]</strong>, a [Year Level] [Course] student at [School Name]. This file covers my [Number]-hour stint at [Company Name], where I traded group projects for real deadlines and learned the difference between knowing a concept and actually being trusted with it. Everything below is logged in the order it happened — open the journey for the full record, or skip ahead to the exhibits for what I actually built.
+          </p>
+
+          <dl class="id-card__facts mono">
+            <div><dt>Program</dt><dd>[Your Course]</dd></div>
+            <div><dt>School</dt><dd>[School Name]</dd></div>
+            <div><dt>Supervisor</dt><dd>[Supervisor Name]</dd></div>
+            <div><dt>Term</dt><dd>[Semester / Year]</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JOURNEY ============ -->
+  <section id="journey" class="section section--manila">
+    <div class="wrap">
+      <p class="eyebrow mono">PG. 03 — THE JOURNEY</p>
+      <h2 class="section-title">Logged in real time</h2>
+
+      <div class="timeline">
+
+        <div class="entry reveal">
+          <div class="entry__node" aria-hidden="true"></div>
+          <div class="entry__content">
+            <p class="entry__date mono">WEEK 1</p>
+            <h3 class="entry__title">Day One</h3>
+            <p class="entry__note">Orientation, a stack of forms, and the longest first morning of my life. I learned where the coffee machine is and approximately nothing else.</p>
+            <div class="photo photo--rotate-a">
+              <div class="photo__frame">
+                <span class="photo__icon">📷</span>
+                <span class="photo__hint mono">Add photo: first day at [Company]</span>
+              </div>
+              <p class="photo__caption">first day @ the office</p>
+              <span class="tape" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry reveal">
+          <div class="entry__node" aria-hidden="true"></div>
+          <div class="entry__content">
+            <p class="entry__date mono">WEEKS 2–3</p>
+            <h3 class="entry__title">Learning Curve</h3>
+            <p class="entry__note">A wrong file sent here, a missed deadline there — small mistakes, all survivable. Mostly I learned to ask better questions before starting, not after.</p>
+            <div class="photo photo--rotate-b">
+              <div class="photo__frame">
+                <span class="photo__icon">📷</span>
+                <span class="photo__hint mono">Add photo: taking notes, week 2</span>
+              </div>
+              <p class="photo__caption">figuring it out</p>
+              <span class="tape" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry reveal">
+          <div class="entry__node" aria-hidden="true"></div>
+          <div class="entry__content">
+            <p class="entry__date mono">WEEKS 4–6</p>
+            <h3 class="entry__title">Finding My Footing</h3>
+            <p class="entry__note">Stopped checking in every five minutes. Started getting handed things without a three-paragraph explanation attached. Small win, felt huge.</p>
+            <div class="photo photo--rotate-c">
+              <div class="photo__frame">
+                <span class="photo__icon">📷</span>
+                <span class="photo__hint mono">Add photo: with the team</span>
+              </div>
+              <p class="photo__caption">the team, mid-shift</p>
+              <span class="tape" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry reveal">
+          <div class="entry__node" aria-hidden="true"></div>
+          <div class="entry__content">
+            <p class="entry__date mono">WEEKS 7–9</p>
+            <h3 class="entry__title">Taking the Lead</h3>
+            <p class="entry__note">Got trusted with [a specific task or project] from start to finish. First time the work had my name on it, not just my attendance.</p>
+            <div class="photo photo--rotate-a">
+              <div class="photo__frame">
+                <span class="photo__icon">📷</span>
+                <span class="photo__hint mono">Add photo: presenting [project], week 8</span>
+              </div>
+              <p class="photo__caption">presenting the work</p>
+              <span class="tape" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="entry reveal">
+          <div class="entry__node" aria-hidden="true"></div>
+          <div class="entry__content">
+            <p class="entry__date mono">FINAL WEEK</p>
+            <h3 class="entry__title">Closing the Log</h3>
+            <p class="entry__note">Exit interview, a few goodbyes, and a logbook that's finally full. [Number] hours later, this is what I've got to show for it.</p>
+            <div class="photo photo--rotate-b">
+              <div class="photo__frame">
+                <span class="photo__icon">📷</span>
+                <span class="photo__hint mono">Add photo: last day at [Company]</span>
+              </div>
+              <p class="photo__caption">last day</p>
+              <span class="tape" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXHIBITS ============ -->
+  <section id="exhibits" class="section section--ink">
+    <div class="wrap">
+      <p class="eyebrow mono">PG. 04 — THE EXHIBITS</p>
+      <h2 class="section-title">A few things I actually built</h2>
+
+      <div class="board__grid">
+
+        <article class="card card--a reveal">
+          <span class="card__pin" aria-hidden="true"></span>
+          <span class="card__tab mono">EXHIBIT A</span>
+          <div class="card__thumb mono">📎 add a screenshot here</div>
+          <h3 class="card__title">Documentation Cleanup</h3>
+          <p class="card__desc">Reorganized and relabeled [what kind of records] so the next person wouldn't have to dig through years of loose files. Cut "where is this" time from twenty minutes to twenty seconds.</p>
+          <ul class="card__tags mono">
+            <li>[Tool]</li><li>Filing</li><li>Process</li>
+          </ul>
+        </article>
+
+        <article class="card card--b reveal">
+          <span class="card__pin" aria-hidden="true"></span>
+          <span class="card__tab mono">EXHIBIT B</span>
+          <div class="card__thumb mono">📎 add a screenshot here</div>
+          <h3 class="card__title">[Process] Tracker</h3>
+          <p class="card__desc">Built a simple [tracker / checklist / system] for [a repeated task], so the team stopped relying on memory and sticky notes for something that happens every week.</p>
+          <ul class="card__tags mono">
+            <li>[Tool]</li><li>Spreadsheets</li><li>Workflow</li>
+          </ul>
+        </article>
+
+        <article class="card card--c reveal">
+          <span class="card__pin" aria-hidden="true"></span>
+          <span class="card__tab mono">EXHIBIT C</span>
+          <div class="card__thumb mono">📎 add a screenshot here</div>
+          <h3 class="card__title">[Event / Campaign] Support</h3>
+          <p class="card__desc">Helped plan and run [an event or initiative], handling [logistics / content / coordination] from the ground up. Small role, real deadline, real consequences if it went sideways.</p>
+          <ul class="card__tags mono">
+            <li>Coordination</li><li>Communication</li><li>[Tool]</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING ============ -->
+  <section id="closing" class="section section--manila closing">
+    <div class="wrap">
+      <p class="eyebrow mono">PG. 05 — SIGN-OFF</p>
+
+      <div class="stamp stamp--closing reveal" aria-hidden="true">
+        <span>LOG</span><span class="stamp__star">★</span><span>CLOSED</span>
+      </div>
+
+      <p class="closing__text">
+        [Number] hours, a long list of small mistakes I won't repeat, and a much clearer idea of the work I actually want to do. Thank you to everyone at [Company Name] who answered questions that probably had obvious answers.
+      </p>
+
+      <div class="signoff">
+        <div class="signoff__col">
+          <div class="sig-line"></div>
+          <p class="mono">TRAINEE — [Your Name]</p>
+        </div>
+        <div class="signoff__col">
+          <div class="sig-line"></div>
+          <p class="mono">OJT COORDINATOR / SUPERVISOR</p>
+        </div>
+      </div>
+
+      <p class="closing__contact mono">Let's talk — <a href="mailto:youremail@example.com">[your.email@example.com]</a> · <a href="#">[linkedin.com/in/yourname]</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer mono">
+  <p>Built for [School Name]'s OJT requirement, [Semester / Year]. © [Year] [Your Name].</p>
+</footer>
+
+<script>
+  (function(){
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    items.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
